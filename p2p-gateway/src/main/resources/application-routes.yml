@@ -1,0 +1,39 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: toindex
+          uri: lb://p2p-pages
+          predicates:
+            - Path=/p2p/index
+
+        - id: toloan
+          uri: lb://p2p-pages
+          predicates:
+            - Path=/p2p/loan/**
+
+        - id: lodestatic2
+          uri: lb://p2p-pages
+          predicates:
+            - Path=/p2p/pstatic/**
+          filters:
+            - RewritePath=/p2p/pstatic/(?<segment>.*), /p2p/$\{segment}
+
+
+
+        - id: tologin
+          uri: lb://p2p-loginAndRegister
+          predicates:
+            - Path=/p2p/page/**
+
+        - id: lodestatic
+          uri: lb://p2p-loginAndRegister
+          predicates:
+            - Path=/p2p/lstatic/**
+          filters:
+            - RewritePath=/p2p/lstatic/(?<segment>.*), /p2p/$\{segment}
+
+        - id: toauth
+          uri: lb://p2p-auth
+          predicates:
+            - Path=/p2p/auth/**

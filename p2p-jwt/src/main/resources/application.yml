@@ -1,0 +1,10 @@
+#jwtp:
+#  enabled: true
+#  secret: cpyjyzgz
+#  expiration: 3600000
+#  header: Authorization
+#  userParamName: userId
+#  pwdParamName: password
+#  useDefaultController: true
+#  skipValidUrl: /auth/login,/auth/register,/auth/logout
+
