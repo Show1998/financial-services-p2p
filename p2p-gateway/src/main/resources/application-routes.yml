@@ -12,7 +12,7 @@ spring:
           predicates:
             - Path=/p2p/loan/**
 
-        - id: lodestatic2
+        - id: lodestatic1
           uri: lb://p2p-pages
           predicates:
             - Path=/p2p/pstatic/**
@@ -26,7 +26,7 @@ spring:
           predicates:
             - Path=/p2p/page/**
 
-        - id: lodestatic
+        - id: lodestatic2
           uri: lb://p2p-loginAndRegister
           predicates:
             - Path=/p2p/lstatic/**
@@ -37,3 +37,17 @@ spring:
           uri: lb://p2p-auth
           predicates:
             - Path=/p2p/auth/**
+
+
+
+        - id: toUserCenter
+          uri: lb://p2p-userCenter
+          predicates:
+            - Path=/p2p/user/**
+
+        - id: lodestatic3
+          uri: lb://p2p-loginAndRegister
+          predicates:
+            - Path=/p2p/ustatic/**
+          filters:
+            - RewritePath=/p2p/ustatic/(?<segment>.*), /p2p/$\{segment}

@@ -120,11 +120,13 @@
             <dd>资金(元)：
 
 	            	<!-- 判断用户是否登录：未登录，显示登录连接 -->
-	            	<span style="font-size:18px;color:#ff6161;vertical-align:bottom;"><a th:href="@{/page/login}">请登录</a></span>
-
+	            	<div th:if="${session.LoginUserInfo eq null} ">
+	            	    <span style="font-size:18px;color:#ff6161;vertical-align:bottom;"><a th:href="@{/page/login}">请登录</a></span>
+                    </div>
 	            	<!-- 判断用户是否登录：已登录，显示可用余额 -->
-	           		<!--<span style="font-size:18px;color:#ff6161;vertical-align:bottom;">1,000,12 元</span>-->
-
+	            	<div th:unless="${session.LoginUserInfo eq null} ">
+	           		    <span style="font-size:18px;color:#ff6161;vertical-align:bottom;">1,000,12 元</span>
+                     </div>
             </dd>
           </dl>
           <div class="expect-box">

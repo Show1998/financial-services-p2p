@@ -2,16 +2,19 @@ package com.cpp.auth.controller;
 
 import com.cpp.auth.jpa.UserEntity;
 import com.cpp.auth.jpa.UserEntityRepository;
+import com.cpp.common.Constants;
 import com.cpp.jwt.common.ResponseCodeEnum;
 import com.cpp.jwt.common.ResponseResult;
 import com.cpp.jwt.config.JwtProperties;
 import com.cpp.jwt.utils.JwtTokenUtil;
+import com.utils.ServletUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
@@ -30,7 +33,7 @@ public class JwtAuthController {
 
 
     @PostMapping ("/auth/checkAndLogin")
-    public String loginAndGenerateToke(HttpServletResponse response, String loginPassword, @RequestParam("id") String phone){
+    public String loginAndGenerateToke(HttpServletResponse response, HttpServletRequest request,String loginPassword, @RequestParam("id") String phone){
         //根据id去查找用户
         UserEntity user = userEntityRepository.findUserByPhone(phone);
 
@@ -50,6 +53,12 @@ public class JwtAuthController {
             }
         }
         return "0";
+    }
+
+    @PostMapping("/auth/checkAndRegister")
+    public String register(String phone,String loginPassword){
+        //TODO 完成注册模块
+        return "1";
     }
 
     /**
@@ -86,19 +95,27 @@ public class JwtAuthController {
     }
 
 
-    @PostMapping("/auth/logout")
-    public  Mono<ResponseResult> logout(@RequestParam("username") String username){
+    @GetMapping("/auth/logout")
+    public  String logout(HttpServletRequest request,HttpServletResponse response){
+
+        //删除cookie
+        Cookie newCookie=new Cookie(jwtProperties.getHeader(),""); //假如要删除名称为username的Cookie JSESSIONID是cookie名 记得换成要删除的
+        newCookie.setMaxAge(0); //立即删除型
+        newCookie.setPath("/");
+        response.addCookie(newCookie); //重新写入，将覆盖之前的
 
 
-        //TODO 删除redis中的token
-        boolean logoutResult = jwtTokenUtil.removeToken(username);
+        String token = ServletUtils.getToken(request);
+        String userId = jwtTokenUtil.getUserIdFromToken(token);
+        // 删除redis中的token
+        boolean logoutResult = jwtTokenUtil.removeToken(userId);
         if (logoutResult) {
-            buildSuccessResponse(ResponseCodeEnum.SUCCESS);
+            return "1";
         } else {
-            buildErrorResponse(ResponseCodeEnum.LOGOUT_ERROR);
+            return "0";
         }
 
-        return buildSuccessResponse(ResponseCodeEnum.SUCCESS);
+
     }
 
     private Mono<ResponseResult> buildErrorResponse(ResponseCodeEnum responseCodeEnum){

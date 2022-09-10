@@ -1,0 +1,15 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.0.118:8848
+        namespace: p2p
+
+  application:
+    name: p2p-userCenter
+
+
+server:
+  port: 8102
+  servlet:
+    context-path: /p2p

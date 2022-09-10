@@ -1,16 +1,20 @@
 package com.cpp.pages.controller;
 
 import com.cpp.common.Constants;
+import com.cpp.jwt.utils.JwtTokenUtil;
 import com.cpp.pages.pojo.LoanInfo;
 import com.cpp.pages.pojo.User;
 import com.cpp.pages.service.*;
+
+import com.utils.ServletUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +34,10 @@ public class IndexController {
 
     @Autowired
     AccountService accountService;
+
+    @Autowired
+    JwtTokenUtil jwtTokenUtil;
+
 
     @RequestMapping("/index")
     public String toIndex(HttpServletRequest request, Model model){
@@ -58,22 +66,38 @@ public class IndexController {
         model.addAttribute("loanInfoListX",loanInfoX);
         model.addAttribute("loanInfoListY",loanInfoY);
         model.addAttribute("loanInfoListZ",loanInfoZ);
+
+        //从token中获取用户的信息,并且存放在session中。
+        String token = ServletUtils.getToken(request);
+        if (token != null){
+            String phone = jwtTokenUtil.getUserIdFromToken(token);
+            String username = jwtTokenUtil.getUserNameFromToken(token);
+            if(phone != null){
+                User user = new User();
+                user.setPhone(phone);
+                user.setName(username);
+                request.getSession().setAttribute(Constants.LOGIN_USER_INFO, user);
+            }
+        }else {
+            request.getSession().removeAttribute(Constants.LOGIN_USER_INFO);
+        }
+
         return "index";
     }
 
     @RequestMapping("/user/getBalance")
     public @ResponseBody String getBalance(HttpServletRequest request){
-        User user  = (User) request.getSession().getAttribute("LoginUserInfo");
+        User user  = (User) request.getSession().getAttribute(Constants.LOGIN_USER_INFO);
         Integer uid = user.getId();
         Double balance = accountService.getBalance(uid);
         return String.valueOf(balance);
     }
 
-    @RequestMapping("/loan/logout")
-    public String logout(HttpServletRequest request){
-
-        request.getSession().removeAttribute("LoginUserInfo");
-
-        return "redirect:/index";
-    }
+//    @RequestMapping("/loan/logout")
+//    public String logout(HttpServletRequest request){
+//
+//        request.getSession().removeAttribute("LoginUserInfo");
+//
+//        return "redirect:/auth/logout";
+//    }
 }

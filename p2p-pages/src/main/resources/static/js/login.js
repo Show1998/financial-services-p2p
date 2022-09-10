@@ -31,7 +31,7 @@ $(function () {
 		}
 		$("#loginPassword").val($.md5(password))
 		$.ajax({
-			url:"/p2p/login",
+			url:"/p2p/auth/checkAndLogin",
 			type:"post",
 			data:{
 				"loginPassword": $.md5(password),
@@ -40,6 +40,7 @@ $(function () {
 			success:function (data) {
 				if (data == "1"){
 					window.location.href = "/p2p/index"
+					// alert("登陆成功")
 				}else {
 					alert("验证错误，请重试！")
 				}

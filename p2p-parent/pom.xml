@@ -11,11 +11,15 @@
     </parent>
     <modules>
         <module>../p2p-gateway</module>
+
         <module>../p2p-pages</module>
-        <module>../p2p-common</module>
-        <module>../p2p-jwt</module>
         <module>../p2p-loginAndRegister</module>
         <module>../p2p-auth</module>
+        <module>../p2p-userCenter</module>
+
+        <module>../p2p-utils</module>
+        <module>../p2p-common</module>
+        <module>../p2p-jwt</module>
     </modules>
 
     <groupId>com.cpp</groupId>

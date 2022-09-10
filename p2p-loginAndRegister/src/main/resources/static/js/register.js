@@ -176,7 +176,7 @@ $(function() {
 			var messageCode = $.trim($("#messageCode").val())
 			$("#loginPassword").val($.md5(loginPassword))
 			$.ajax({
-				url: "/p2p/page/checkAndRegister",
+				url: "/p2p/auth/checkAndRegister",
 				type: "post",
 				data: {
 					"phone":phone,

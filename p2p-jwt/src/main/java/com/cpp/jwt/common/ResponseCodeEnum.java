@@ -15,7 +15,7 @@ public enum ResponseCodeEnum {
     TOKEN_INVALID("B2002", "token 已过期或验证不正确！"),
     TOKEN_SIGNATURE_INVALID("B2003", "无效的签名"),
     TOKEN_EXPIRED("B2004", "token 已过期"),
-    TOKEN_MISSION("B2005", "token 缺失"),
+    TOKEN_MISSION("B2005", "token 缺失,请登陆！！！"),
     TOKEN_CHECK_INFO_FAILED("B2006", "token 信息验证失败"),
     REFRESH_TOKEN_INVALID("B2006", "refreshToken 无效"),
     LOGOUT_ERROR("B2007", "用户登出失败"),

@@ -27,6 +27,8 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.regex.Pattern;
 
+import static com.cpp.common.Constants.*;
+
 @Configuration
 @Slf4j
 @Order(-101)
@@ -40,9 +42,7 @@ public class JwtCheckFilter implements GlobalFilter {
     private static final String IMAGES_PATTERN="/p2p/images/.*";
     private static final String IMG_PATTERN="/p2p/img/.*";
 
-    public static final String USER_ID = "userId";
-    public static final String USER_NAME = "username";
-    public static final String FROM_SOURCE = "from-source";
+
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -143,6 +143,9 @@ public class JwtCheckFilter implements GlobalFilter {
      * 获取请求token
      */
     private String getToken(ServerHttpRequest request) {
+        if (request.getCookies().get(jwtProperties.getHeader()) == null){
+            return null;
+        }
         String token = request.getCookies().get(jwtProperties.getHeader()).get(0).getValue();
         // 如果前端设置了令牌前缀，则裁剪掉前缀
         if (StringUtils.isNotEmpty(token) && token.startsWith(TokenConstants.PREFIX))

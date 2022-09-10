@@ -12,6 +12,7 @@
     <script type="text/javascript" th:src="@{/pstatic/js/jquery-1.7.2.min.js}"></script>
     <script type="text/javascript" th:src="@{/pstatic/js/jquery.nivo.slider.pack.js}"></script>
     <script type="text/javascript" th:src="@{/pstatic/js/trafficStatistics.js}"></script>
+    <script type="text/javascript" th:src="@{/pstatic/js/logout.js}"></script>
     <style type="text/css">body{background:#f2f2f2;}</style>
 </head>
 <body>
@@ -44,8 +45,8 @@
         <!-- 登录状态   -->
         <div th:unless="${session.LoginUserInfo eq null} ">
             <div class="register welcome">
-                <div class="welcome-txt">欢迎 <span>“<b th:text="${session.LoginUserInfo.phone}">张三</b>”</span><br/>来金融网投资！</div>
-                <div class="bn_register"><a th:href="@{/loan/myCenter}" class="btn-1">进入我的小金库</a></div>
+                <div class="welcome-txt">欢迎 <span>“<b th:text="${session.LoginUserInfo.name}">张三</b>”</span><br/>来金融网投资！</div>
+                <div class="bn_register"><a th:href="@{/user/myCenter}" class="btn-1">进入我的小金库</a></div>
             </div>
         </div>
 

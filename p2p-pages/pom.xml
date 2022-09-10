@@ -62,6 +62,16 @@
             <artifactId>p2p-common</artifactId>
             <version>1.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.cpp</groupId>
+            <artifactId>p2p-jwt</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.cpp</groupId>
+            <artifactId>p2p-utils</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
