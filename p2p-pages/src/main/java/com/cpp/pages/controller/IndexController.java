@@ -76,7 +76,10 @@ public class IndexController {
                 User user = new User();
                 user.setPhone(phone);
                 user.setName(username);
-                request.getSession().setAttribute(Constants.LOGIN_USER_INFO, user);
+                if (request.getSession().getAttribute(Constants.LOGIN_USER_INFO) == null){
+                    request.getSession().setAttribute(Constants.LOGIN_USER_INFO, user);
+                }
+
             }
         }else {
             request.getSession().removeAttribute(Constants.LOGIN_USER_INFO);

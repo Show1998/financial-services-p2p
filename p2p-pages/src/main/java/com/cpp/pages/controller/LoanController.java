@@ -1,7 +1,11 @@
 package com.cpp.pages.controller;
 
+import com.cpp.common.Constants;
 import com.cpp.common.pojo.PageAndVo;
+import com.cpp.jwt.utils.JwtTokenUtil;
+import com.cpp.pages.pojo.User;
 import com.cpp.pages.service.LoanInfoService;
+import com.utils.ServletUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +21,9 @@ public class LoanController {
 
     @Autowired
     LoanInfoService loanInfoService;
+
+    @Autowired
+    JwtTokenUtil jwtTokenUtil;
 
     @RequestMapping("/loan/loan")
     public String toLoanPage(
@@ -39,6 +46,23 @@ public class LoanController {
         model.addAttribute("totalPage",totalPage);
         model.addAttribute("currentPage",currentPage);
         model.addAttribute("ptype",pType);
+
+        String token = ServletUtils.getToken(request);
+        if (token != null){
+            String phone = jwtTokenUtil.getUserIdFromToken(token);
+            String username = jwtTokenUtil.getUserNameFromToken(token);
+            if(phone != null){
+                User user = new User();
+                user.setPhone(phone);
+                user.setName(username);
+                if (request.getSession().getAttribute(Constants.LOGIN_USER_INFO) == null){
+                    request.getSession().setAttribute(Constants.LOGIN_USER_INFO, user);
+                }
+
+            }
+        }else {
+            request.getSession().removeAttribute(Constants.LOGIN_USER_INFO);
+        }
         return "loan";
 
     }

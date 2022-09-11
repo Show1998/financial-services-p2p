@@ -19,7 +19,7 @@ public enum ResponseCodeEnum {
     TOKEN_CHECK_INFO_FAILED("B2006", "token 信息验证失败"),
     REFRESH_TOKEN_INVALID("B2006", "refreshToken 无效"),
     LOGOUT_ERROR("B2007", "用户登出失败"),
-    ALREADY_LOGIN_OR_LOGOUT("B2008","账号在别的地方登陆或已经登出");
+    ALREADY_LOGIN_OR_LOGOUT("B2008","账号在别的地方登陆或已经登出,请重新登陆！");
     private final String code;
     private final String message;
     ResponseCodeEnum(String code, String message) {

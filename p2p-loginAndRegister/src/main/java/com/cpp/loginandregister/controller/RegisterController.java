@@ -53,7 +53,7 @@ public class RegisterController {
         //生成6位随机数
         String randNum = this.getCodeMessage(6);
 
-        //TODO 调用第三方SDK发送短信
+        //TODO 调用第三方SDK发送短信并读取结果
 //        String url = "xxxx";
 //        HttpClientUtils.doGet(url);
 

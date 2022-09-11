@@ -29,12 +29,26 @@ public class UserCenterController {
                 User user = new User();
                 user.setPhone(phone);
                 user.setName(username);
-                request.getSession().setAttribute(Constants.LOGIN_USER_INFO, user);
+                if (request.getSession().getAttribute(Constants.LOGIN_USER_INFO) == null){
+                    request.getSession().setAttribute(Constants.LOGIN_USER_INFO, user);
+                }
             }
         }else {
             request.getSession().removeAttribute(Constants.LOGIN_USER_INFO);
         }
 
         return "myCenter";
+    }
+    @RequestMapping("/user/myInvest")
+    public String toMyInvest(){
+        return "myInvest";
+    }
+    @RequestMapping("/user/myRecharge")
+    public String toMyRecharge(){
+        return "myRecharge";
+    }
+    @RequestMapping("/user/myIncome")
+    public String toMyIncome(){
+        return "myIncome";
     }
 }
