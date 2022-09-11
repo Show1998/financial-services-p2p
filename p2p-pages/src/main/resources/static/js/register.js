@@ -187,7 +187,7 @@ $(function() {
 					if (data == 1){
 						//注册成功
 						alert("注册成功！请尽快实名认证！！")
-						window.location.href = "/p2p/loan/checkRealName"
+						window.location.href = "/p2p/index"
 					}else if (data == 0){
 						showError("loginPassword","错误！")
 					}else if(data == -1){

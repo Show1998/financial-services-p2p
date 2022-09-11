@@ -10,6 +10,6 @@ spring:
 
 
 server:
-  port: 8102
+  port: 7102
   servlet:
     context-path: /p2p

@@ -2,8 +2,6 @@ package com.cpp.loginandregister.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
-
-import com.cpp.common.Constants;
 import com.cpp.loginandregister.pojo.User;
 import com.cpp.loginandregister.service.RedisService;
 import com.cpp.loginandregister.service.UserService;
@@ -18,8 +16,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Random;
 
 @Controller
 public class RegisterController {
@@ -52,6 +52,7 @@ public class RegisterController {
     public @ResponseBody String sendMessage(String phone) throws DocumentException {
         //生成6位随机数
         String randNum = this.getCodeMessage(6);
+
         //TODO 调用第三方SDK发送短信
 //        String url = "xxxx";
 //        HttpClientUtils.doGet(url);
@@ -77,8 +78,9 @@ public class RegisterController {
         if (!StringUtils.equals(text, "Success")){
             return "-2";
         }
-
+        //将结果存入redis中
         redisService.put(phone, randNum);
+
         return "1";
     }
 

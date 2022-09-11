@@ -2,7 +2,6 @@ package com.cpp.auth.controller;
 
 import com.cpp.auth.jpa.UserEntity;
 import com.cpp.auth.jpa.UserEntityRepository;
-import com.cpp.common.Constants;
 import com.cpp.jwt.common.ResponseCodeEnum;
 import com.cpp.jwt.common.ResponseResult;
 import com.cpp.jwt.config.JwtProperties;
@@ -10,12 +9,14 @@ import com.cpp.jwt.utils.JwtTokenUtil;
 import com.utils.ServletUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.Map;
 
 @RestController
@@ -30,6 +31,9 @@ public class JwtAuthController {
     @Autowired
     private JwtProperties jwtProperties;
 
+    @Autowired
+    RedisTemplate redisTemplate;
+
 
 
     @PostMapping ("/auth/checkAndLogin")
@@ -42,6 +46,10 @@ public class JwtAuthController {
             String username = user.getName()==null?"投资者": user.getName();
             //判断前端的密码和数据库中的密码是否一致
             boolean isAuthenticated = StringUtils.equals(loginPassword, user.getLoginPassword());
+            //更新上次登陆时间
+            user.setLastLoginTime(new Date());
+            userEntityRepository.save(user);
+
             //如果一致，生成token，并设置cookie
             if(isAuthenticated){
                 Map<String, Object> tokenmap = jwtTokenUtil.generateTokenAndRefreshToken(phone,username);
@@ -56,8 +64,24 @@ public class JwtAuthController {
     }
 
     @PostMapping("/auth/checkAndRegister")
-    public String register(String phone,String loginPassword){
-        //TODO 完成注册模块
+    public String register(String phone,String loginPassword,String messageCode){
+        //完成注册模块
+        try {
+            //判断验证码是否正确
+            if(!StringUtils.equals(messageCode,(String)redisTemplate.opsForValue().get(phone))){ return "-1";}
+
+            //数据库插入
+            UserEntity user = new UserEntity();
+            user.setPhone(phone);
+            user.setLoginPassword(loginPassword);
+            user.setAddTime(new Date());
+            user.setLastLoginTime(new Date());
+            userEntityRepository.save(user);
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return "0";
+        }
         return "1";
     }
 
