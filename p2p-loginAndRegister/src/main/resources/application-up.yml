@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: p2p-loginAndRegister
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        namespace: p2p
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost/p2p?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    username: root
+    password: cpy50686868cpy
+  redis:
+    port: 6379
+    host: localhost
+
+server:
+  port: 7103
+  servlet:
+    context-path: /p2p

@@ -1,31 +1,3 @@
 spring:
-  jpa:
-    hibernate:
-      ddl-auto: validate
-    show-sql: true
-    database: mysql
-
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.0.118/p2p?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
-    username: root
-    password: cpy50686868cpy
-
-  redis:
-    port: 6379
-    host: 192.168.0.118
-
-  cloud:
-    nacos:
-      discovery:
-        server-addr: 192.168.0.118:8848
-        namespace: p2p
-
-  application:
-    name: p2p-auth
-
-server:
-  port: 6102
-  servlet:
-    context-path: /p2p
-
+  profiles:
+    active: dev

@@ -1,0 +1,34 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        namespace: p2p
+        server-addr: 192.168.0.118:8848
+
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            # 设置允许的域名
+            allowedOrigins:
+              - "http://localhost"
+            # 允许所有头信息
+            allowedHeaders: "*"
+            # 设置允许携带cookie
+            # 为true时allowedOrigins不允许为* 会报错
+            allowCredentials: true
+            # 允许跨域请求的请求方式
+            allowedMethods:
+              - GET
+              - POST
+              - DELETE
+              - PUT
+
+  application:
+    name: p2p-gateway
+  redis:
+    host: 192.168.0.118
+server:
+  port: 5001
+
+
