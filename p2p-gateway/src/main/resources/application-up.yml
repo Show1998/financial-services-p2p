@@ -26,8 +26,6 @@ spring:
 
   application:
     name: p2p-gateway
-  profiles:
-    include: routes
   redis:
     host: localhost
 server:
