@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
-@SpringBootApplication(scanBasePackages = {"com.cpp.pages","com.cpp.jwt"})
+@SpringBootApplication(scanBasePackages = {"com.cpp.pages","com.cpp.jwt","com.cpp.utils"})
 @EnableDiscoveryClient
 @MapperScan(basePackages = "com.cpp.pages.mapper")
 public class P2pPagesApplication {

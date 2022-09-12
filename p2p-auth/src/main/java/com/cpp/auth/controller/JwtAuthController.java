@@ -6,7 +6,7 @@ import com.cpp.jwt.common.ResponseCodeEnum;
 import com.cpp.jwt.common.ResponseResult;
 import com.cpp.jwt.config.JwtProperties;
 import com.cpp.jwt.utils.JwtTokenUtil;
-import com.utils.ServletUtils;
+import com.cpp.utils.ServletUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -33,6 +33,9 @@ public class JwtAuthController {
 
     @Autowired
     RedisTemplate redisTemplate;
+
+    @Autowired
+    ServletUtils servletUtils;
 
 
 
@@ -129,7 +132,7 @@ public class JwtAuthController {
         response.addCookie(newCookie); //重新写入，将覆盖之前的
 
 
-        String token = ServletUtils.getToken(request);
+        String token = servletUtils.getToken(request);
         String userId = jwtTokenUtil.getUserIdFromToken(token);
         // 删除redis中的token
         boolean logoutResult = jwtTokenUtil.removeToken(userId);

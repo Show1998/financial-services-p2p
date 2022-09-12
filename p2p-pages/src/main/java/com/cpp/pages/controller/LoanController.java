@@ -5,7 +5,7 @@ import com.cpp.common.pojo.PageAndVo;
 import com.cpp.jwt.utils.JwtTokenUtil;
 import com.cpp.pages.pojo.User;
 import com.cpp.pages.service.LoanInfoService;
-import com.utils.ServletUtils;
+import com.cpp.utils.ServletUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +24,9 @@ public class LoanController {
 
     @Autowired
     JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
+    ServletUtils servletUtils;
 
     @RequestMapping("/loan/loan")
     public String toLoanPage(
@@ -47,7 +50,7 @@ public class LoanController {
         model.addAttribute("currentPage",currentPage);
         model.addAttribute("ptype",pType);
 
-        String token = ServletUtils.getToken(request);
+        String token = servletUtils.getToken(request);
         if (token != null){
             String phone = jwtTokenUtil.getUserIdFromToken(token);
             String username = jwtTokenUtil.getUserNameFromToken(token);

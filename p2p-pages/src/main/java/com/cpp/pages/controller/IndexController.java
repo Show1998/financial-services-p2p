@@ -4,17 +4,17 @@ import com.cpp.common.Constants;
 import com.cpp.jwt.utils.JwtTokenUtil;
 import com.cpp.pages.pojo.LoanInfo;
 import com.cpp.pages.pojo.User;
-import com.cpp.pages.service.*;
-
-import com.utils.ServletUtils;
-import org.apache.commons.lang3.StringUtils;
+import com.cpp.pages.service.AccountService;
+import com.cpp.pages.service.BidInfoService;
+import com.cpp.pages.service.LoanInfoService;
+import com.cpp.pages.service.UserService;
+import com.cpp.utils.ServletUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
@@ -37,6 +37,9 @@ public class IndexController {
 
     @Autowired
     JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
+    ServletUtils servletUtils;
 
 
     @RequestMapping("/index")
@@ -68,7 +71,8 @@ public class IndexController {
         model.addAttribute("loanInfoListZ",loanInfoZ);
 
         //从token中获取用户的信息,并且存放在session中。
-        String token = ServletUtils.getToken(request);
+        String token = servletUtils.getToken(request);
+        // TODO 这里会有null
         if (token != null){
             String phone = jwtTokenUtil.getUserIdFromToken(token);
             String username = jwtTokenUtil.getUserNameFromToken(token);
@@ -82,7 +86,9 @@ public class IndexController {
 
             }
         }else {
-            request.getSession().removeAttribute(Constants.LOGIN_USER_INFO);
+            if (request.getSession().getAttribute(Constants.LOGIN_USER_INFO) != null){
+                request.getSession().removeAttribute(Constants.LOGIN_USER_INFO);
+            }
         }
 
         return "index";
