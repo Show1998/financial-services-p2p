@@ -1,3 +1,6 @@
+#spring:
+#  profiles:
+#    include: dev,routes
 spring:
   profiles:
-    include: dev,routes
+    include: up,routes

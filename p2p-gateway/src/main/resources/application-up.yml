@@ -3,14 +3,14 @@ spring:
     nacos:
       discovery:
         namespace: p2p
-        server-addr: 127.0.0.1:8848
+        server-addr: 101.33.235.76:8848
 
     gateway:
       globalcors:
         cors-configurations:
           '[/**]':
             # 设置允许的域名
-            allowedOrigins:
+            allowedOriginsPatterns:
               - "http://localhost"
             # 允许所有头信息
             allowedHeaders: "*"
@@ -27,7 +27,7 @@ spring:
   application:
     name: p2p-gateway
   redis:
-    host: localhost
+    host: 127.0.0.1
 server:
   port: 5001
 

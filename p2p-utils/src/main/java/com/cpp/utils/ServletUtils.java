@@ -2,7 +2,6 @@ package com.cpp.utils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -11,8 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 public class ServletUtils {
 
     public  String getToken(HttpServletRequest request){
-        if (request == null){
-            System.out.println("请求为空");
+        if (request.getCookies() == null){
+            System.out.println("cookie为空");
         }else {
             for(Cookie c :request.getCookies()){
                 if (StringUtils.equals(c.getName(), "Authorization")){
